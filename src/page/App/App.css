@@ -1,0 +1,14 @@
+.img{
+    background-attachment: fixed;
+    background-repeat: no repeat;
+    opacity: 0.7;
+
+}
+
+.mid{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+}
