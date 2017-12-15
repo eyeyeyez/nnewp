@@ -8,7 +8,7 @@ import 'semantic-ui-css/semantic.min.css';
 import './news.css';
 import { Label, Menu, Tab, Input, Button, Icon, Image as ImageComponent, Item, TextArea } from 'semantic-ui-react'
 
-import { getall, apiupload, apisearch } from '../../Api'
+import { getall, apiupload, apisearch ,getalls ,apisearchs} from '../../Api'
 
 
 
@@ -19,7 +19,8 @@ class News extends Component {
     this.state = {
       search: '',
       i: 1,
-      post: []
+      post: [],
+      send: []
     };
     this.onChange = this.onChange.bind(this)
   }
@@ -33,15 +34,15 @@ class News extends Component {
 
   componentDidMount() {
     getall().then((post) => this.setState({ post }))
+    getalls().then((send) => this.setState({ send }))
   }
 
   componentWillUpdate() {
     apisearch(this.state.search).then((post) => this.setState({ post }))
+    apisearchs(this.state.search).then((send) => this.setState({ send }))
   }
 
   render() {
-
-    const paragraph = <ImageComponent src='https://react.semantic-ui.com/assets/images/wireframe/short-paragraph.png' />
 
     const panes = [
       {
@@ -73,7 +74,30 @@ class News extends Component {
       },
       {
         menuItem: <Menu.Item key='messages'>Messages<Label>15</Label></Menu.Item>,
-        render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>,
+        render: () => <Tab.Pane><Item.Group divided>
+        
+        
+                  {this.state.send.length >= 0 ?
+                    this.state.send.map(list =>
+        
+                      <Item>
+                        <Item.Image src='https://static1.squarespace.com/static/5133d124e4b066ad532edd2c/t/539a8b01e4b07a1d748dce69/1402637057762/The-Ninth-Day-on-blank-book-cover-bigger.png?format=500w' />
+        
+                        <Item.Content>
+                          <Item.Header as='a'>{list.title}</Item.Header>
+                          <Item.Description><TextArea rows='5' cols='80' readonly='true'>{list.content}</TextArea></Item.Description>
+                          <Item.Extra>
+                            <Label>{list.category}</Label>
+                          </Item.Extra>
+                          <Item.Meta>
+                            <span className='cinema'>{list.contact}</span>
+                          </Item.Meta>
+                        </Item.Content>
+                      </Item>
+                    ) : null
+                  }
+                </Item.Group>
+                </Tab.Pane>,
       },
       {
         menuItem: <Menu.Menu >
